@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Creator Protection Registry Prototype</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; line-height: 1.6; color: #333; }
+        .box { border: 2px dashed #0066cc; padding: 30px; text-align: center; background: #f4f9ff; cursor: pointer; border-radius: 6px; }
+        .box:hover { background: #e6f2ff; }
+        .result { margin-top: 20px; padding: 20px; background: #eef7ee; border: 1px solid #ccdcce; border-radius: 6px; word-break: break-all; display: none; }
+        .btn { display: inline-block; background: #00802b; color: white; padding: 10px 20px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 15px; text-decoration: none; }
+        .btn:hover { background: #006622; }
+    </style>
+</head>
+<body>
+
+    <h2>Prior User Protection Prototype</h2>
+    <p>Select a file containing your concept. The file stays completely local on your computer, protecting your private details.</p>
+
+    <div class="box" id="dropZone">
+        <strong>Click or Drag & Drop your concept file here to generate proof</strong>
+    </div>
+    <input type="file" id="fileInput" style="display: none;">
+
+    <div class="result" id="resultBox">
+        <h3>Cryptographic Receipt Generated Successfully</h3>
+        <p><strong>File Name:</strong> <span id="fileName"></span></p>
+        <p><strong>Universal Secure Hash (SHA-256):</strong><br><code id="fileHash"></code></p>
+        <p><strong>Official Timestamp:</strong> <span id="timestamp"></span></p>
+        
+        <!-- New Download Button -->
+        <button class="btn" id="downloadBtn">Download Cryptographic Receipt</button>
+        
+        <hr style="margin-top:20px; border:0; border-top:1px solid #ccdcce;">
+        <p><small><em>Government Proposal Note: In a live system, this unique Hash and Timestamp would be permanently anchored to an official, public ledger, legally securing the creator's priority date forever.</em></small></p>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const resultBox = document.getElementById('resultBox');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        let generatedData = null;
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleFile);
+
+        function handleFile(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = async function(event) {
+                const arrayBuffer = event.target.result;
+                
+                // Calculate the SHA-256 hash completely client-side
+                const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                const timeString = new Date().toUTCString();
+
+                // Save data internally for the download function
+                generatedData = {
+                    name: file.name,
+                    hash: hashHex,
+                    time: timeString
+                };
+
+                // Display the results on screen
+                document.getElementById('fileName').textContent = file.name;
+                document.getElementById('fileHash').textContent = hashHex;
+                document.getElementById('timestamp').textContent = timeString;
+                resultBox.style.display = 'block';
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        // Logic to build and download the text receipt file
+        downloadBtn.addEventListener('click', () => {
+            if (!generatedData) return;
+
+            const receiptText = 
+`==================================================
+OFFICIAL PROOF OF EXISTENCE RECEIPT
+==================================================
+File Name: ${generatedData.name}
+SHA-256 Secure Hash: ${generatedData.hash}
+Official Timestamp: ${generatedData.time}
+==================================================
+LEGAL PROPOSAL NOTE:
+This receipt proves the exact contents of this file
+existed at the timestamp listed above. Altering even 
+one character of the original file will invalidate 
+this receipt.
+==================================================`;
+
+            const blob = new Blob([receiptText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `receipt-${generatedData.name}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+    </script>
+</body>
+</html>

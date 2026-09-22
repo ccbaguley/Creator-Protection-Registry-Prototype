@@ -1,0 +1,29 @@
+# Creator Protection Registry Prototype
+
+A lightweight, zero-trust web tool designed to provide independent creators with irrefutable, tamper-proof **Proof of Existence (PoE)** for their concepts, manuscripts, and designs. 
+
+This prototype serves as a working model to demonstrate how a low-cost public utility can establish a legal priority date for creators before they share their intellectual property with investors, partners, or the public.
+
+## 💡 The Problem It Solves
+Current intellectual property frameworks (like patents and trademarks) heavily favor entities with the capital to file immediately. Independent creators often have their abstract concepts exploited or utilized without credit because they lack the funds for immediate legal registration. 
+
+This tool provides a **free, secure, local framework** to establish a timestamped paper trail before a concept is ever exposed to the internet.
+
+## 🔒 How It Works (Zero-Trust Privacy)
+* **Client-Side Hashing:** The tool uses the browser's built-in `SubtleCrypto` API to calculate a unique **SHA-256 cryptographic hash** of the user's file. 
+* **Absolute Privacy:** The file is processed entirely local to the user's computer. **The actual file is never uploaded to a server or the internet.** The secret details of the concept remain 100% private.
+* **Tamper-Proof Verification:** If even a single character or pixel in the original file is modified later, the cryptographic hash changes completely. This provides verifiable mathematical proof of the file's exact state at the moment it was timestamped.
+* **Downloadable Receipt:** The tool generates a portable, human-readable cryptographic receipt (`.txt`) containing the official file metadata, hash, and UTC timestamp to serve as a permanent record.
+
+## 🚀 How to Run the Prototype
+This prototype requires **zero dependencies, zero installation, and no server configuration**.
+
+1. Clone or download this repository.
+2. Open the `prototype.html` file by double-clicking it in any modern web browser (Chrome, Firefox, Edge, Safari).
+3. Drag and drop your project file into the registry interface to generate your receipt.
+
+## 🏛️ Civic Vision (The Path Forward)
+This repository is an open-source prototype designed to be shared with lawmakers and legislative committees (such as the House and Senate Judiciary Committees). The long-term goal is to advocate for a federally recognized, low-cost or free public database that permanently anchors these client-side hashes to an official ledger, legally safeguarding individual creators from predatory exploitation.
+
+## 📜 License
+This prototype is released under the MIT License. Feel free to fork, modify, and share to help protect independent innovators.

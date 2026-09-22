@@ -1,0 +1,22 @@
+## 📖 Step-by-Step Instructions
+
+Follow these steps to generate and verify your cryptographic proof of existence using the prototype.
+
+### 1. Launching the Prototype
+1. Open the repository folders on your computer.
+2. Locate the `prototype.html` file.
+3. **Double-click** the file to open it. It will automatically load as a local webpage in your default web browser (such as Chrome, Edge, Firefox, or Safari). No internet connection or installation is required.
+
+### 2. Generating Your Cryptographic Receipt
+1. Find the local file on your computer that you want to secure (e.g., a `.docx` manuscript, a `.pdf` blueprint, or a `.zip` archive of your source code).
+2. **Drag and drop** that file directly into the blue dashed box on the screen, or click inside the box to select the file using your system file explorer.
+3. The green **Cryptographic Receipt** box will instantly appear. It will display your file's name, its unique SHA-256 secure hash, and the exact UTC timestamp.
+4. Click the green **Download Cryptographic Receipt** button to save a permanent `.txt` record of this data to your computer.
+
+### 3. How to Verify a Concept in the Future (The Tamper Test)
+To prove to someone else (or a legal authority) that your concept has not changed since the timestamp was generated:
+1. Open the `prototype.html` file in your browser.
+2. Drag and drop the **exact, unmodified** original file into the blue box.
+3. Look at the generated **SHA-256 Hash** on the screen.
+4. Compare it to the hash saved inside your downloaded `.txt` receipt. If the hashes match perfectly, it mathematically proves the file is identical and existed at that exact timestamp. 
+5. *Note:* If even a single punctuation mark, space, or byte inside the original file has been altered since the receipt was issued, the generated hash will change completely, indicating the file has been tampered with.
